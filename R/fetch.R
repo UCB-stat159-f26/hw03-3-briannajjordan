@@ -59,8 +59,8 @@ fetch_career_js <- function(slug) {
   js <- read_url_lines(paste0(BASE_URL, "jsmatches/", slug, "Career.js"))
   if (is.null(js)) {
     stop(sprintf(paste0("No career data found for player '%s' on ",
-                        "tennisabstract.com. Check the spelling (e.g. \"Serena Williams\") ",
-                        "and your internet connection."), display_name(slug)), call. = FALSE)
+                        "tennisabstract.com. Check the spelling (e.g. \"Serena Williams\"); ",
+                        "some players, especially recent men's players, have no career file."), display_name(slug)), call. = FALSE)
   }
   js
 }
@@ -89,7 +89,8 @@ fetch_player_dob <- function(slug, female) {
   dob <- extract_dob(read_url_lines(paste0(BASE_URL, page, slug)))
   if (is.na(dob)) {
     stop(sprintf(paste0("Could not find the date of birth of '%s'. ",
-                        "Supply it with the `dob` argument, e.g. dob = \"1981-09-26\"."),
+                        "Check your internet connection and try again, or supply it with ",
+                        "the `dob` argument, e.g. dob = \"1981-09-26\"."),
                  display_name(slug)), call. = FALSE)
   }
   dob
