@@ -1,0 +1,7 @@
+devtools::load_all()
+devtools::document()
+devtools::check_man()
+devtools::test()
+devtools::build()
+devtools::install()
+devtools::check()
