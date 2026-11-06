@@ -32,3 +32,48 @@ parse_career_js <- function(js_text) {
   matches <- jsonlite::fromJSON(sub(pattern, "\\1", js, perl = TRUE))
   rows_to_matrix(matches)
 }
+
+#' Is the file from a women's (WTA) career?
+#'
+#' Women's files store the opponent's date of birth (YYYYMMDD) where men's
+#' files store the opponent's age (a decimal number).
+#' @param matches character matrix from `parse_career_js()`
+#' @return logical of length 1
+#' @keywords internal
+is_female_career <- function(matches) {
+  values <- matches[, COL_OPP_AGE]
+  values <- values[!is.na(values) & values != ""]
+  length(values) > 0 && all(grepl("^\\d{8}$", values))
+}
+
+#' Convert YYYYMMDD strings to Dates
+#'
+#' @param x character vector, e.g. "19810926"
+#' @return Date vector
+#' @keywords internal
+as_ymd <- function(x) {
+  as.Date(x, format = "%Y%m%d")
+}
+
+#' Age in years of someone born on `birth` at date `on`
+#'
+#' @param birth,on Date vectors
+#' @return numeric vector of ages in years
+#' @keywords internal
+age_in_years <- function(birth, on) {
+  as.numeric(difftime(on, birth, units = "days")) / 365.25
+}
+
+#' Opponent's age at each match
+#'
+#' @param matches character matrix from `parse_career_js()`
+#' @return numeric vector (NA when unknown)
+#' @keywords internal
+opponent_ages <- function(matches) {
+  raw <- matches[, COL_OPP_AGE]
+  raw[raw == ""] <- NA
+  if (is_female_career(matches)) {
+    return(age_in_years(as_ymd(raw), as_ymd(matches[, COL_DATE])))
+  }
+  suppressWarnings(as.numeric(raw))
+}
