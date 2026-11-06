@@ -1,6 +1,6 @@
 # HW 3 R Package for Tennis Career Plots
 
-Brianna Jordan, STAT 159, Fall 2026
+**Brianna Jordan, STAT 159, Fall 2026**
 
 For this HW I turned my HW 2 code into an R package, `tennisages`, that works for any player on Tennis Abstract, not just Serena. It has two functions: one gets a player's career data, and one makes a plot like the NYT graphic from "Serena Williams Dominated Her Generation, Then the Next One, Too" (2022), without annotations.
 
@@ -39,7 +39,7 @@ The data frame has one row per match, with the player's name, the date, tourname
 
 Women's and men's files are different. Women's files have each opponent's birthday, so I calculate the opponent's age from it. Men's files already have the opponent's age. Matches without an opponent age are dropped.
 
-Some files aren't fully up to date as Rafael Nadal's ends in October 2016, so his plot stops around age 30.
+The Career files on Tennis Abstract don't always cover a player's full career. The men's files I checked (Nadal, Federer, Djokovic) end in 2016, and some women's files end a year or two early (Gauff and Venus Williams both stop in 2024). Tennis Abstract keeps some later matches in separate files, but they were incomplete and formatted differently, so I only used the Career files, as the assignment asks. Some players, like Carlos Alcaraz, don't have a Career file at all, so the package returns an error for them.
 
 ## Structure
 
